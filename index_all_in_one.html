@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pack → Althea Robotics (Francesca) — Leadership at Scale</title>
+
+  <!-- Reveal.js core + theme (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css" id="theme-link"/>
+
+  <style>
+    /* === Brand & layout === */
+    :root {
+      --brand: #ff7a00;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --overlay: rgba(0,0,0,.55);
+    }
+    .reveal .slides { text-align: left; }
+    .reveal section h1, .reveal section h2, .reveal section h3 { text-align: left; }
+
+    /* Overlay pill for legible text atop backgrounds */
+    .overlay {
+      display: inline-block;
+      background: var(--overlay);
+      color: #fff;
+      padding: 16px 20px;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      backdrop-filter: blur(2px);
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .tag {
+      background: var(--brand);
+      color:#fff;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: .85rem;
+      margin-left: 8px;
+    }
+    .footer {
+      position: absolute;
+      bottom: 12px;
+      right: 18px;
+      font-size: 14px;
+      opacity: .65;
+    }
+    .brandmark {
+      position: fixed; top: 12px; left: 16px; z-index: 9; opacity: .95;
+      display:flex; align-items:center; gap:10px;
+    }
+    .brandmark .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: linear-gradient(135deg, #ff7a00, #ff9a3d);
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+    .brandmark .name { font-weight: 700; color: var(--ink); letter-spacing: .2px; }
+
+    /* Cards for package A/B */
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .card {
+      border: 1px solid #e5e7eb; border-radius: 16px; padding: 18px 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+      background: #fff;
+    }
+    .card h3 { margin-top: 0; }
+    .card.active { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,122,0,.25); }
+    .kpi { font-weight:700; color: var(--brand); }
+    .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    .btn {
+      background: var(--brand); color:#fff; border:none; border-radius: 10px; padding:10px 14px; cursor:pointer;
+      box-shadow: 0 6px 14px rgba(255,122,0,.35); font-weight:600;
+    }
+    .btn.secondary { background:#111827; box-shadow: 0 6px 14px rgba(17,24,39,.25); }
+    .btn.ghost { background: transparent; color: var(--brand); border:1px solid var(--brand); box-shadow:none; }
+
+    /* Chart containers */
+    .chart-wrap { background:#fff; border-radius:16px; padding: 16px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+    .charts { display: grid; grid-template-columns: 1.15fr .85fr; gap: 22px; }
+    @media (max-width: 1200px) { .charts { grid-template-columns: 1fr; } }
+
+    /* Toolbar */
+    .toolbar {
+      position: fixed; top: 12px; right: 12px; z-index: 10;
+      display:flex; align-items:center; gap: 8px;
+    }
+    .toolbar select, .toolbar button {
+      background: rgba(0,0,0,.5); color: #fff; border: none; border-radius: 10px; padding: 6px 10px;
+      cursor:pointer; font-size: 14px;
+    }
+    .toolbar a { color:#fff; text-decoration:none; }
+
+    /* Nice gradient backgrounds for key slides */
+    .bg-gradient-hero { background: radial-gradient(1200px 700px at 0% 0%, #fff4ec, #ffffff 60%); }
+    .bg-gradient-dark { background: radial-gradient(1100px 650px at 90% 10%, #1f2937, #0b1220 60%); color: #e5e7eb; }
+  </style>
+</head>
+<body>
+
+  <!-- Brand -->
+  <div class="brandmark">
+    <div class="dot"></div>
+    <div class="name">PACK</div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button id="themeToggle" title="Toggle theme">Theme: Light</button>
+    <button id="bgToggle" title="Toggle background transition">BG: zoom</button>
+    <a href="https://thepack.tech" target="_blank" rel="noopener" title="Open site">thepack.tech ↗</a>
+  </div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title -->
+      <section class="bg-gradient-hero">
+        <h1>Althea Robotics — Leadership at Scale</h1>
+        <p class="overlay">For Francesca, Global Head of People <span class="tag">Press S for notes</span></p>
+        <aside class="notes">
+          OPEN (10–20s): Thanks for the time. Today: confirm your challenge (retention in critical roles, low L&D traction),
+          show how Pack drives adoption & measures impact, and land clear next steps (pilot or 6‑month cohort).
+        </aside>
+      </section>
+
+      <!-- Agenda -->
+      <section>
+        <h2>Agenda (30’)</h2>
+        <ol>
+          <li>Icebreaking & recap (5’)</li>
+          <li>Demo delivery — user flow & value (10’)</li>
+          <li>Deep dive & scoping (5’)</li>
+          <li>Objections & close (5’)</li>
+          <li>Wrap‑up — next steps (5’)</li>
+        </ol>
+        <p class="meta">We’ll keep it practical and data‑oriented.</p>
+        <aside class="notes">Check alignment on pain points; ask success metrics she cares most about.</aside>
+      </section>
+
+      <!-- Success for Francesca -->
+      <section>
+        <h2>What success looks like for Althea</h2>
+        <ul>
+          <li>↑ Retention in <strong>critical roles</strong></li>
+          <li>↑ Traction of L&amp;D (measurable adoption across cohorts)</li>
+          <li>Consistent rollout across 4 countries & languages</li>
+          <li>Executive‑ready dashboard (HRBP/CEO/CFO views)</li>
+          <li>Low lift for People team; Pack runs day‑to‑day</li>
+        </ul>
+        <aside class="notes">Anchor outcomes before features.</aside>
+      </section>
+
+      <!-- Value -->
+      <section>
+        <h2>Value proposition</h2>
+        <ul>
+          <li><strong>Intelligent matching</strong> + 1‑click scheduling → real adoption</li>
+          <li><strong>Nudges</strong> to sustain cadence</li>
+          <li><strong>Analytics</strong>: adoption, progress, program eNPS, retention signals</li>
+          <li>Multi‑country, role‑based access, exports for committees</li>
+        </ul>
+        <aside class="notes">“People use it because it’s easy; HR loves it because it’s measurable.”</aside>
+      </section>
+
+      <!-- Charts focus: eNPS trajectory + Client NPS comparison -->
+      <section>
+        <h2>Impact in 90 days — eNPS & NPS signals</h2>
+        <div class="charts">
+          <div class="chart-wrap">
+            <h3 class="meta">Program eNPS trajectory (pilot cohort)</h3>
+            <canvas id="enpsChart" height="220"></canvas>
+            <p class="meta">Targets: <span class="kpi">≥70% adoption</span>, <span class="kpi">+8 to +10</span> pts eNPS at day 90.</p>
+          </div>
+          <div class="chart-wrap">
+            <h3 class="meta">Peer benchmarks (anonymized)</h3>
+            <canvas id="npsChart" height="220"></canvas>
+            <p class="meta">Illustrative; ranges vary by cohort size and baseline.</p>
+          </div>
+        </div>
+        <aside class="notes">
+          Left: eNPS trend for a 90‑day pilot (weekly snapshots). Right: anonymized client NPS deltas by industry.
+          Use as expectation‑setting, not as a guarantee; we align KPIs up‑front.
+        </aside>
+      </section>
+
+      <!-- User flow overview -->
+      <section>
+        <h2>User flow (friction → adoption)</h2>
+        <ol>
+          <li>Onboarding (2 minutes; minimal fields)</li>
+          <li>Self‑assessment (1–5 sliders; baseline)</li>
+          <li>Matching list (short relevant options; visible fit%)</li>
+          <li>Coach profile & 1‑click scheduling (timezone‑aware)</li>
+          <li>Chemistry call (built‑in video) → confirm/decline</li>
+          <li>Post‑session feedback → program eNPS & quality signals</li>
+        </ol>
+        <aside class="notes">Narrate the flow; emphasize seamless scheduling and continuous feedback.</aside>
+      </section>
+
+      <!-- Admin overview -->
+      <section>
+        <h2>Admin overview — single pane</h2>
+        <ul>
+          <li>Invited vs active, matches, activity rate</li>
+          <li>Sessions booked/completed; satisfaction (program eNPS)</li>
+          <li>Filters: country/unit/role; CSV exports</li>
+          <li>Signals for retention & engagement</li>
+        </ul>
+        <aside class="notes">Exec‑ready without spreadsheets; HRBPs see what they need, not raw 1:1 detail.</aside>
+      </section>
+
+      <!-- Scale & governance -->
+      <section class="bg-gradient-dark">
+        <h2>Scale, security & integrations</h2>
+        <ul>
+          <li>SSO, calendar, HRIS/LMS integrations</li>
+          <li>Role‑based access; EU data residency available</li>
+          <li>DPA and security pack for IT review</li>
+        </ul>
+        <aside class="notes">Offer 30’ technical review; we run day‑to‑day, you sponsor and read the dashboard.</aside>
+      </section>
+
+      <!-- Packages A/B with interactive highlight -->
+      <section>
+        <h2>Packages within €30–50K</h2>
+        <div class="cards" id="pkgCards">
+          <div class="card" id="pkgA">
+            <h3>A) 90‑day Pilot (~€32K)</h3>
+            <ul>
+              <li>60 participants, 3–4 sessions each</li>
+              <li>Dashboard + 90‑day impact report</li>
+              <li>SSO + calendar (lightweight rollout)</li>
+              <li><span class="kpi">Success:</span> ≥70% adoption; +8 eNPS</li>
+            </ul>
+            <div class="btn-row">
+              <button class="btn" data-select="A">Select A</button>
+              <button class="btn ghost" data-cta="A">Request proposal</button>
+            </div>
+          </div>
+          <div class="card" id="pkgB">
+            <h3>B) 6‑month Cohort (~€49K)</h3>
+            <ul>
+              <li>100 participants across 4 countries</li>
+              <li>5–6 sessions each; monthly reports</li>
+              <li>HRIS/LMS integration</li>
+              <li><span class="kpi">Success:</span> ≥75% adoption; +10 eNPS</li>
+            </ul>
+            <div class="btn-row">
+              <button class="btn" data-select="B">Select B</button>
+              <button class="btn ghost" data-cta="B">Request proposal</button>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">Offer a binary choice to speed decisions; confirm the committee/IT attendees.</aside>
+      </section>
+
+      <!-- Next steps -->
+      <section>
+        <h2>Next steps</h2>
+        <ul>
+          <li>Pick A or B (scope vs depth)</li>
+          <li>Book 30’ with Procurement/IT (security/contract)</li>
+          <li>Proposal in 48 hours with KPIs & timeline</li>
+        </ul>
+        <aside class="notes">Close with calendar invite; summarize decisions and KPIs via email.</aside>
+      </section>
+
+      <!-- Q&A -->
+      <section>
+        <h2>Q&A</h2>
+        <p class="meta">Common objections: “We tried CoachHub”, “Need hard data”, “No bandwidth”, “Security”.</p>
+        <aside class="notes">
+          Responses: cohorts + nudges + 1‑click → adoption; KPIs agreed up‑front with 90‑day report; lightweight rollout;
+          provide security pack and schedule IT review.
+        </aside>
+      </section>
+
+    </div>
+    <div class="footer">Pack — Francesca demo • Press S for notes</div>
+  </div>
+
+  <!-- Reveal & plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+
+  <!-- Chart.js + Annotation plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+
+  <script>
+    // === Reveal initialization ===
+    const deck = new Reveal({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'slide',
+      backgroundTransition: 'zoom',
+      width: 1400, height: 800, margin: 0.06,
+      plugins: [ RevealNotes ]
+    });
+    deck.initialize();
+
+    // === Theme toggle ===
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('themeToggle');
+    let dark = false;
+    themeBtn.addEventListener('click', () => {
+      dark = !dark;
+      themeLink.href = dark
+        ? 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/black.css'
+        : 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css';
+      themeBtn.textContent = 'Theme: ' + (dark ? 'Dark' : 'Light');
+    });
+
+    // === Background transition toggle ===
+    const bgBtn = document.getElementById('bgToggle');
+    bgBtn.addEventListener('click', () => {
+      const cur = deck.getConfig().backgroundTransition || 'zoom';
+      const next = cur === 'zoom' ? 'fade' : 'zoom';
+      deck.configure({ backgroundTransition: next });
+      bgBtn.textContent = 'BG: ' + next;
+    });
+
+    // === Charts data (EDIT HERE) ===
+    const enpsData = {
+      labels: ['Week 0', 'Week 2', 'Week 4', 'Week 6', 'Week 8', 'Week 10', 'Week 12'],
+      values: [12, 18, 21, 26, 30, 33, 36] // sample program eNPS movement over 90 days
+    };
+
+    const npsBenchmarks = {
+      labels: ['Retail (Cohort A)', 'Tech (Cohort B)', 'Manufacturing (Cohort C)', 'Healthcare (Cohort D)'],
+      values: [38, 52, 44, 47] // anonymized illustrative NPS values
+    };
+
+    function makeENPSChart() {
+      const ctx = document.getElementById('enpsChart');
+      if (!ctx) return;
+      Chart.register(ChartAnnotation);
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: enpsData.labels,
+          datasets: [{
+            label: 'Program eNPS',
+            data: enpsData.values,
+            tension: 0.35,
+            fill: true,
+            borderWidth: 3,
+            pointRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { suggestedMin: 0, suggestedMax: 60, ticks: { stepSize: 10 } }
+          },
+          plugins: {
+            legend: { display: false },
+            annotation: {
+              annotations: {
+                target: {
+                  type: 'line',
+                  yMin: 30, yMax: 30,
+                  borderColor: '#ff7a00',
+                  borderWidth: 2,
+                  borderDash: [6,6],
+                  label: { enabled: true, content: 'Target +8 to +10 pts', backgroundColor: '#ff7a00' }
+                }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` eNPS: ${ctx.parsed.y}`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function makeNPSChart() {
+      const ctx = document.getElementById('npsChart');
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: npsBenchmarks.labels,
+          datasets: [{
+            label: 'NPS (anonymized)',
+            data: npsBenchmarks.values,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { suggestedMin: 0, suggestedMax: 80, ticks: { stepSize: 10 } }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` NPS: ${ctx.parsed.x}`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Build charts when deck is ready (DOM exists)
+    deck.on('ready', () => {
+      makeENPSChart();
+      makeNPSChart();
+    });
+
+    // === Interactive packages: highlight selection and log CTA ===
+    const cards = document.getElementById('pkgCards');
+    if (cards) {
+      cards.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t.matches('[data-select]')) {
+          const id = t.getAttribute('data-select');
+          document.getElementById('pkgA').classList.toggle('active', id === 'A');
+          document.getElementById('pkgB').classList.toggle('active', id === 'B');
+        }
+        if (t.matches('[data-cta]')) {
+          const id = t.getAttribute('data-cta');
+          alert((id === 'A' ? 'Pilot 90‑day' : '6‑month cohort') + ' — proposal requested. (Replace alert with your link/action)');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
