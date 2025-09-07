@@ -1,8 +1,4 @@
-/* styles.css */
-#enpsChart, #npsChart, #funnelChart { width: 100%; height: 240px; }
-
-
-/* Simple responsive site for Francesca (no frameworks) */
+/* Static site — horizontal charts only */
 :root{
   --brand:#ff7a00;
   --ink:#0f172a;
@@ -64,11 +60,13 @@ nav a:hover{ color:var(--ink); }
 
 /* Charts */
 .charts{ display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
-.chart-card, .chart-wide{
+.chart-card{
   background:#fff; border:1px solid var(--border); border-radius:14px; padding:14px;
   box-shadow:0 8px 20px rgba(0,0,0,.06);
 }
 .kpi{ color:var(--brand); font-weight:800; }
+/* Fixed-size canvases */
+.fixed-canvas{ width:100%; height:260px; }
 
 /* Cards */
 .cards{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
