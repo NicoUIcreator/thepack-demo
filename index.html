@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PACK → Althea Robotics (Francesca) — Leadership at Scale</title>
+  <meta name="description" content="Persona-focused demo site for Francesca (Global Head of People) showing user flow, analytics, and eNPS/NPS impact.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js (vanilla, no frameworks) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <span class="dot"></span>
+        <span class="name">PACK</span>
+      </div>
+      <nav>
+        <a href="#hero">Home</a>
+        <a href="#success">Success</a>
+        <a href="#flow">User Flow</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#charts">eNPS & NPS</a>
+        <a href="#packages">Packages</a>
+        <a href="#next">Next Steps</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Althea Robotics — Leadership at Scale</h1>
+          <p class="lead">For <strong>Francesca</strong>, Global Head of People. Build management capabilities, raise engagement, and prove impact in 90 days.</p>
+          <div class="cta-row">
+            <a class="btn" href="#charts">See impact</a>
+            <a class="btn ghost" href="#packages">Choose a package</a>
+          </div>
+          <ul class="hero-points">
+            <li>Intelligent matching + 1‑click scheduling → adoption</li>
+            <li>Nudges sustain cadence</li>
+            <li>Analytics: adoption, progress, program eNPS, retention signals</li>
+          </ul>
+        </div>
+        <div class="hero-card">
+          <img src="assets/program_overview.png" alt="Program overview dashboard" />
+        </div>
+      </div>
+    </section>
+
+    <!-- SUCCESS -->
+    <section id="success" class="section">
+      <div class="container">
+        <h2>What success looks like for Althea</h2>
+        <div class="grid-2">
+          <ul class="checklist">
+            <li>↑ Retention in <strong>critical roles</strong></li>
+            <li>↑ Traction of L&amp;D (measurable cohort adoption)</li>
+            <li>Consistent rollout across 4 countries & languages</li>
+            <li>Executive‑ready dashboards (HRBP/CEO/CFO views)</li>
+            <li>Low lift for People team — Pack runs day‑to‑day</li>
+          </ul>
+          <div class="note">
+            We align KPIs up‑front and deliver a 90‑day impact report with recommendations.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USER FLOW (image gallery) -->
+    <section id="flow" class="section alt">
+      <div class="container">
+        <h2>User Flow — where adoption is won</h2>
+        <div class="gallery">
+          <figure>
+            <img src="assets/onboarding.png" alt="Onboarding form">
+            <figcaption><strong>1) Onboarding</strong> — 2‑minute start; minimal fields → faster activation.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/assessment.png" alt="Assessment sliders">
+            <figcaption><strong>2) Assessment</strong> — simple 1–5 sliders create a baseline for goals & matching.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/matching.png" alt="Matching list">
+            <figcaption><strong>3) Matching</strong> — short, relevant options with visible fit%.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/profile_calendar.png" alt="Coach profile and calendar">
+            <figcaption><strong>4) Profile + 1‑click scheduling</strong> — multilingual & timezone‑aware.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/webcall.png" alt="Chemistry webcall">
+            <figcaption><strong>5) Chemistry call</strong> — decide fast; stay in one place.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/chem_feedback.png" alt="Chemistry feedback">
+            <figcaption><strong>6) Feedback</strong> — confirm/decline with reason → improvement loop.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/match_selected.png" alt="Match selected">
+            <figcaption><strong>7) Match confirmed</strong> — nudges keep cadence automatically.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/post_feedback.png" alt="Post-session feedback sliders">
+            <figcaption><strong>8) Post‑session feedback</strong> — powers program eNPS & early quality signals.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="analytics" class="section">
+      <div class="container">
+        <h2>Admin overview — single pane</h2>
+        <div class="grid-2">
+          <ul class="bullets">
+            <li>Invited vs active, active matches, activity rate</li>
+            <li>Sessions booked/completed; satisfaction (program eNPS)</li>
+            <li>Filters: country/unit/role; CSV exports</li>
+            <li>Signals for retention & engagement</li>
+          </ul>
+          <div class="panel">
+            <img src="assets/program_overview.png" alt="Dashboard KPIs">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="section alt">
+      <div class="container">
+        <h2>Event tracking — full audit trail</h2>
+        <div class="grid-2">
+          <ul class="bullets">
+            <li>Every touchpoint with status & duration</li>
+            <li>Filters & CSV for monthly reporting and reconciliation</li>
+            <li>Useful for People Ops and Finance</li>
+          </ul>
+          <div class="panel">
+            <img src="assets/events.png" alt="Events list">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARTS -->
+    <section id="charts" class="section">
+      <div class="container">
+        <h2>Impact in 90 days — eNPS & NPS</h2>
+        <div class="charts">
+          <div class="chart-card">
+            <h3 class="meta">Program eNPS trajectory (pilot cohort)</h3>
+            <canvas id="enpsChart" height="200"></canvas>
+            <p class="meta">Targets: <span class="kpi">≥70% adoption</span>, <span class="kpi">+8 to +10</span> pts eNPS at day 90.</p>
+          </div>
+          <div class="chart-card">
+            <h3 class="meta">Peer NPS benchmarks (anonymized)</h3>
+            <canvas id="npsChart" height="200"></canvas>
+            <p class="meta">Illustrative; ranges vary by cohort size and baseline.</p>
+          </div>
+        </div>
+        <div class="chart-wide">
+          <h3 class="meta">Adoption funnel — cohort example</h3>
+          <canvas id="funnelChart" height="140"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section id="packages" class="section alt">
+      <div class="container">
+        <h2>Packages within €30–50K</h2>
+        <div class="cards">
+          <div class="card" id="pkgA">
+            <h3>A) 90‑day Pilot (~€32K)</h3>
+            <ul>
+              <li>60 participants, 3–4 sessions each</li>
+              <li>Dashboard + 90‑day impact report</li>
+              <li>SSO + calendar (lightweight rollout)</li>
+              <li><span class="kpi">Success:</span> ≥70% adoption; +8 eNPS</li>
+            </ul>
+            <div class="btn-row">
+              <button class="btn select" data-select="A">Select A</button>
+              <a class="btn ghost" href="#" data-cta="A">Request proposal</a>
+            </div>
+          </div>
+          <div class="card" id="pkgB">
+            <h3>B) 6‑month Cohort (~€49K)</h3>
+            <ul>
+              <li>100 participants across 4 countries</li>
+              <li>5–6 sessions each; monthly reports</li>
+              <li>HRIS/LMS integration</li>
+              <li><span class="kpi">Success:</span> ≥75% adoption; +10 eNPS</li>
+            </ul>
+            <div class="btn-row">
+              <button class="btn select" data-select="B">Select B</button>
+              <a class="btn ghost" href="#" data-cta="B">Request proposal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS -->
+    <section id="next" class="section">
+      <div class="container">
+        <h2>Next steps</h2>
+        <ol>
+          <li>Pick A or B (scope vs depth)</li>
+          <li>Book 30’ with Procurement/IT (security/contract)</li>
+          <li>We send proposal in 48h with KPIs & timeline</li>
+        </ol>
+        <div class="cta-row">
+          <a class="btn" href="#packages">Choose a package</a>
+          <a class="btn secondary" href="mailto:hello@thepack.tech?subject=Proposal%20request%20—%20Althea%20Robotics">Email us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Pack — Persona-focused demo for Francesca.</p>
+    </div>
+  </footer>
+</body>
+</html>
