@@ -1,14 +1,12 @@
-// --- STATIC CHARTS CONFIG ---
-// Kill all animations globally
+// STATIC HORIZONTAL CHARTS — no animation, no hover, fixed-size canvases
 Chart.defaults.animation = false;
-// Make sure no active/hover transitions sneak in
 Chart.defaults.transitions = {
   active: { animation: { duration: 0 } },
   show:   { animations: {} },
   hide:   { animations: {} }
 };
 
-// Fictional data (stable)
+// Fictional stable data
 const enpsData = {
   labels: ['Week 0', 'Week 2', 'Week 4', 'Week 6', 'Week 8', 'Week 10', 'Week 12'],
   values: [10, 15, 19, 23, 28, 31, 34]
@@ -19,18 +17,24 @@ const npsBenchmarks = {
   values: [40, 48, 46, 50, 45]
 };
 
-const adoptionFunnel = {
-  labels: ['Invited', 'Activated', 'Matched', 'Sessions Booked', 'Sessions Completed'],
-  values: [100, 80, 70, 63, 60]
+const retention = {
+  labels: ['W0', 'W2', 'W4', 'W6', 'W8', 'W10', 'W12'],
+  withPack: [92, 93, 94, 95, 95, 96, 96],
+  control:  [92, 91, 90, 90, 89, 89, 88]
 };
 
-// One place to enforce “no interaction / no animation”
+const roi = {
+  labels: ['Day 30', 'Day 60', 'Day 90'],
+  investment: [32, 0, 0],  // €k up-front pilot
+  savings:    [60, 120, 180] // €k avoided costs (illustrative)
+};
+
 const STATIC_OPTS_BASE = {
-  responsive: true,             // set to false if you want fixed-size canvases
+  responsive: false,          // fixed-size (CSS sets height)
   maintainAspectRatio: false,
   animation: false,
-  animations: {},               // explicitly no keyframe animations
-  events: [],                   // disable all mouse/touch events (no hover glow)
+  animations: {},
+  events: [],                 // no hover/interaction
   parsing: false,
   plugins: {
     legend: { display: false },
@@ -42,22 +46,20 @@ function makeENPSChart(){
   const ctx = document.getElementById('enpsChart');
   if(!ctx) return;
   new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
       labels: enpsData.labels,
       datasets: [{
         label: 'Program eNPS',
         data: enpsData.values,
-        tension: 0,             // straight segments (also reduces “motion” feel)
-        fill: true,
-        borderWidth: 2,
-        pointRadius: 3
+        borderWidth: 1
       }]
     },
     options: {
       ...STATIC_OPTS_BASE,
+      indexAxis: 'y', // horizontal
       scales: {
-        y: { suggestedMin: 0, suggestedMax: 70, ticks: { stepSize: 10 } }
+        x: { suggestedMin: 0, suggestedMax: 70, ticks: { stepSize: 10 } }
       }
     }
   });
@@ -78,7 +80,7 @@ function makeNPSChart(){
     },
     options: {
       ...STATIC_OPTS_BASE,
-      indexAxis: 'y',
+      indexAxis: 'y', // horizontal
       scales: {
         x: { suggestedMin: 0, suggestedMax: 80, ticks: { stepSize: 10 } }
       }
@@ -86,29 +88,49 @@ function makeNPSChart(){
   });
 }
 
-function makeFunnelChart(){
-  const ctx = document.getElementById('funnelChart');
+function makeRetentionChart(){
+  const ctx = document.getElementById('retentionChart');
   if(!ctx) return;
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: adoptionFunnel.labels,
-      datasets: [{
-        label: '% of invited',
-        data: adoptionFunnel.values,
-        borderWidth: 1
-      }]
+      labels: retention.labels,
+      datasets: [
+        { label: 'With Pack', data: retention.withPack, borderWidth: 1 },
+        { label: 'Control', data: retention.control, borderWidth: 1 }
+      ]
     },
     options: {
       ...STATIC_OPTS_BASE,
-      scales: {
-        y: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20 } }
-      }
+      indexAxis: 'y', // horizontal grouped bars per week
+      plugins: { legend: { display: true }, tooltip: { enabled: false } },
+      scales: { x: { suggestedMin: 85, suggestedMax: 100, ticks: { stepSize: 5 } } }
     }
   });
 }
 
-// Package selection highlight (still interactive buttons if you want)
+function makeROIChart(){
+  const ctx = document.getElementById('roiChart');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: roi.labels,
+      datasets: [
+        { label: 'Investment (€k)', data: roi.investment, borderWidth: 1 },
+        { label: 'Avoided costs (€k)', data: roi.savings, borderWidth: 1 }
+      ]
+    },
+    options: {
+      ...STATIC_OPTS_BASE,
+      indexAxis: 'y', // horizontal
+      plugins: { legend: { display: true }, tooltip: { enabled: false } },
+      scales: { x: { suggestedMin: 0, suggestedMax: 200, ticks: { stepSize: 50 } } }
+    }
+  });
+}
+
+// Package selection highlight (kept interactive)
 function bindPackageSelection(){
   document.querySelectorAll('.btn.select').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -122,7 +144,7 @@ function bindPackageSelection(){
     a.addEventListener('click', (e) => {
       e.preventDefault();
       const id = a.dataset.cta;
-      alert((id === 'A' ? 'Pilot 90-day' : '6-month cohort') + ' — proposal requested. (Replace with your link/action)');
+      alert((id === 'A' ? 'Pilot 90‑day' : '6‑month cohort') + ' — proposal requested. (Replace with your link/action)');
     });
   });
 }
@@ -131,6 +153,7 @@ function bindPackageSelection(){
 document.addEventListener('DOMContentLoaded', () => {
   makeENPSChart();
   makeNPSChart();
-  makeFunnelChart();
+  makeRetentionChart();
+  makeROIChart();
   bindPackageSelection();
 });
