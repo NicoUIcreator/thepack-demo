@@ -1,3 +1,7 @@
+/* styles.css */
+#enpsChart, #npsChart, #funnelChart { width: 100%; height: 240px; }
+
+
 /* Simple responsive site for Francesca (no frameworks) */
 :root{
   --brand:#ff7a00;

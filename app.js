@@ -1,21 +1,42 @@
-// Charts + simple interactivity (no frameworks)
+// --- STATIC CHARTS CONFIG ---
+// Kill all animations globally
+Chart.defaults.animation = false;
+// Make sure no active/hover transitions sneak in
+Chart.defaults.transitions = {
+  active: { animation: { duration: 0 } },
+  show:   { animations: {} },
+  hide:   { animations: {} }
+};
 
-// Fictional data for charts — edit as needed
+// Fictional data (stable)
 const enpsData = {
   labels: ['Week 0', 'Week 2', 'Week 4', 'Week 6', 'Week 8', 'Week 10', 'Week 12'],
-  values: [12, 18, 22, 27, 31, 35, 39]
+  values: [10, 15, 19, 23, 28, 31, 34]
 };
 
 const npsBenchmarks = {
   labels: ['Retail', 'Tech', 'Manufacturing', 'Healthcare', 'Financial Services'],
-  values: [38, 52, 44, 47, 49]
+  values: [40, 48, 46, 50, 45]
 };
 
 const adoptionFunnel = {
   labels: ['Invited', 'Activated', 'Matched', 'Sessions Booked', 'Sessions Completed'],
-  values: [100, 78, 66, 61, 58] // percentages of invited
+  values: [100, 80, 70, 63, 60]
 };
 
+// One place to enforce “no interaction / no animation”
+const STATIC_OPTS_BASE = {
+  responsive: true,             // set to false if you want fixed-size canvases
+  maintainAspectRatio: false,
+  animation: false,
+  animations: {},               // explicitly no keyframe animations
+  events: [],                   // disable all mouse/touch events (no hover glow)
+  parsing: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: { enabled: false }
+  }
+};
 
 function makeENPSChart(){
   const ctx = document.getElementById('enpsChart');
@@ -27,23 +48,16 @@ function makeENPSChart(){
       datasets: [{
         label: 'Program eNPS',
         data: enpsData.values,
-        tension: 0.35,
+        tension: 0,             // straight segments (also reduces “motion” feel)
         fill: true,
-        borderWidth: 3,
-        pointRadius: 4
+        borderWidth: 2,
+        pointRadius: 3
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      ...STATIC_OPTS_BASE,
       scales: {
         y: { suggestedMin: 0, suggestedMax: 70, ticks: { stepSize: 10 } }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: { label: (c) => ` eNPS: ${c.parsed.y}` }
-        }
       }
     }
   });
@@ -63,17 +77,10 @@ function makeNPSChart(){
       }]
     },
     options: {
+      ...STATIC_OPTS_BASE,
       indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
       scales: {
         x: { suggestedMin: 0, suggestedMax: 80, ticks: { stepSize: 10 } }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: { label: (c) => ` NPS: ${c.parsed.x}` }
-        }
       }
     }
   });
@@ -93,22 +100,15 @@ function makeFunnelChart(){
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      ...STATIC_OPTS_BASE,
       scales: {
         y: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20 } }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: { label: (c) => ` ${c.raw}%` }
-        }
       }
     }
   });
 }
 
-// Package selection highlight
+// Package selection highlight (still interactive buttons if you want)
 function bindPackageSelection(){
   document.querySelectorAll('.btn.select').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -122,7 +122,7 @@ function bindPackageSelection(){
     a.addEventListener('click', (e) => {
       e.preventDefault();
       const id = a.dataset.cta;
-      alert((id === 'A' ? 'Pilot 90‑day' : '6‑month cohort') + ' — proposal requested. (Replace with your link/action)');
+      alert((id === 'A' ? 'Pilot 90-day' : '6-month cohort') + ' — proposal requested. (Replace with your link/action)');
     });
   });
 }
