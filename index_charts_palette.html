@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PACK Demo — Charts (Francesca)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --brand:#ff7a00;
+      --ink:#0f172a;
+      --muted:#475569;
+      --grid:#e5e7eb;
+      --axis:#334155;
+      --label:#0f172a;
+      --guide:#9ca3af;
+      --bg:#ffffff;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --ink:#e5e7eb; --label:#e5e7eb; --axis:#cbd5e1; --grid:#334155; --bg:#0b1220; --guide:#64748b;
+      }
+      body{ background:var(--bg); }
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+    .wrap{width:min(1100px,92%);margin:24px auto}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    h1{font-size:20px;margin:0}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .card{border:1px solid #e5e7eb;border-radius:12px;padding:16px;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+    canvas{width:100%;height:280px}
+    .controls{display:flex;gap:8px;align-items:center}
+    select,button{padding:8px 10px;border-radius:8px;border:1px solid #e5e7eb;background:#fff}
+    .legend{font-size:12px;color:var(--muted);margin-top:6px}
+    .note{color:var(--muted);font-size:12px;margin-top:6px}
+    @media(max-width: 900px){.row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>PACK — eNPS, Benchmarks, Retention & ROI</h1>
+      <div class="controls">
+        <label for="scenario">Scenario:</label>
+        <select id="scenario">
+          <option value="althea" selected>Althea Robotics</option>
+          <option value="xyz_saas">XYZ SaaS</option>
+        </select>
+        <button id="redraw">Redraw</button>
+      </div>
+    </header>
+
+    <div class="row">
+      <div class="card">
+        <h3>Program eNPS (by week)</h3>
+        <canvas id="mixChart"></canvas>
+        <div class="note">Horizontal bars — fictional data for demo.</div>
+      </div>
+      <div class="card">
+        <h3>ROI Contribution</h3>
+        <canvas id="roiChart"></canvas>
+        <div class="note">Doughnut split — illustrative.</div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:16px">
+      <div class="card">
+        <h3>Retention vs Control (critical roles)</h3>
+        <canvas id="runwayChart"></canvas>
+        <div class="legend">Guide: <strong>Target 95% retention</strong></div>
+      </div>
+      <div class="card">
+        <h3>Peer NPS Benchmarks</h3>
+        <canvas id="benchChart"></canvas>
+        <div class="note">Horizontal bars across sectors (anonymized, fictional).</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Palette helpers ----------
+    function palette(){
+      const styles = getComputedStyle(document.documentElement);
+      return {
+        axis:  styles.getPropertyValue('--axis').trim()  || '#334155',
+        grid:  styles.getPropertyValue('--grid').trim()  || '#e5e7eb',
+        label: styles.getPropertyValue('--label').trim() || '#0f172a',
+        guide: styles.getPropertyValue('--guide').trim() || '#9ca3af',
+        brand: styles.getPropertyValue('--brand').trim() || '#ff7a00'
+      };
+    }
+    const axisColor = ()=>palette().axis, gridColor=()=>palette().grid, labelColor=()=>palette().label;
+
+    // ---------- Custom plugin: runway/retention guide line ----------
+    const runwayGuide = {
+      id: 'runwayGuide',
+      afterDatasetsDraw(chart, args, pluginOptions){
+        const { ctx, chartArea } = chart;
+        const target = pluginOptions?.target;
+        if(target == null) return;
+        // For indexAxis:'y', x-axis is numeric; y is categories
+        const xScale = chart.scales.x;
+        const pal = palette();
+        const x = xScale.getPixelForValue(target);
+        ctx.save();
+        ctx.strokeStyle = pluginOptions.color || pal.guide;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6,6]);
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // Label
+        ctx.fillStyle = pluginOptions.color || pal.guide;
+        ctx.font = '12px Inter, system-ui, sans-serif';
+        const label = pluginOptions.label || ('Target ' + target);
+        ctx.fillText(label, Math.min(x + 6, chartArea.right - 80), chartArea.top + 14);
+        ctx.restore();
+      }
+    };
+    Chart.register(runwayGuide);
+
+    // ---------- Data (fictional, static) ----------
+    const scenarios = {
+      althea: {
+        mix: { labels: ['Week 0','Week 2','Week 4','Week 6','Week 8','Week 10','Week 12'], values:[10,15,19,23,28,31,34] },
+        roi: { labels: ['Avoided Backfills','Faster Ramp','Productivity Uplift'], values:[50,30,20] },
+        runway: { labels: ['W0','W2','W4','W6','W8','W10','W12'], values:[92,94,95,95,96,96,97] },
+        bench: { labels: ['Retail','Tech','Manufacturing','Healthcare','FinServ'], values:[40,48,46,50,45] }
+      }
+    };
+
+    // ---------- Chart handles ----------
+    let mixChart=null, roiChart=null, runwayChart=null, benchChart=null;
+
+    // ---------- Common options ----------
+    const STATIC = true; // set to false to enable smooth animations
+    function staticOpts(){
+      return {
+        responsive:true,
+        animation: STATIC ? false : { duration:600 },
+        plugins:{
+          legend:{ labels:{ color:labelColor() } },
+          tooltip:{ enabled:true }
+        }
+      };
+    }
+
+    // ---------- Draw / Redraw ----------
+    function draw(kind='althea'){
+      const pal = palette();
+      const d = scenarios[kind];
+
+      const ctxMix = document.getElementById('mixChart').getContext('2d');
+      const ctxRoi = document.getElementById('roiChart').getContext('2d');
+      const ctxRun = document.getElementById('runwayChart').getContext('2d');
+      const ctxBench = document.getElementById('benchChart').getContext('2d');
+
+      if(mixChart) mixChart.destroy();
+      if(roiChart) roiChart.destroy();
+      if(runwayChart) runwayChart.destroy();
+      if(benchChart) benchChart.destroy();
+
+      // eNPS (horizontal bar)
+      mixChart = new Chart(ctxMix, {
+        type:'bar',
+        data:{ labels:d.mix.labels,
+               datasets:[{ label:'Program eNPS', data:d.mix.values, borderWidth:1, backgroundColor: pal.brand }] },
+        options:{
+          ...staticOpts(),
+          indexAxis:'y',
+          scales:{
+            x:{ ticks:{ color:axisColor() }, grid:{ color:gridColor() }, suggestedMax:70, beginAtZero:true },
+            y:{ ticks:{ color:axisColor() }, grid:{ color:gridColor() } }
+          }
+        }
+      });
+
+      // ROI (doughnut)
+      roiChart = new Chart(ctxRoi, {
+        type:'doughnut',
+        data:{ labels:d.roi.labels,
+               datasets:[{ label:'ROI Contribution', data:d.roi.values, borderWidth:0,
+                           backgroundColor:[pal.brand, '#0ea5e9', '#22c55e'] }] },
+        options:{
+          ...staticOpts(),
+          cutout:'55%'
+        }
+      });
+
+      // Retention (horizontal bar) + guide at 95%
+      runwayChart = new Chart(ctxRun, {
+        type:'bar',
+        data:{ labels:d.runway.labels,
+               datasets:[{ label:'% Retained', data:d.runway.values, borderWidth:1, backgroundColor: pal.brand }] },
+        options:{
+          ...staticOpts(),
+          indexAxis:'y',
+          plugins:{ legend:{ labels:{ color:labelColor() } }, tooltip:{ enabled:true }, runwayGuide:{ target:95, color:pal.guide, label:'95% target' } },
+          scales:{
+            x:{ ticks:{ color:axisColor() }, grid:{ color:gridColor() }, suggestedMax:100, beginAtZero:true },
+            y:{ ticks:{ color:axisColor() }, grid:{ color:gridColor() } }
+          }
+        }
+      });
+
+      // Benchmarks (horizontal bar)
+      benchChart = new Chart(ctxBench, {
+        type:'bar',
+        data:{ labels:d.bench.labels,
+               datasets:[{ label:'Peer NPS', data:d.bench.values, borderWidth:1, backgroundColor: pal.brand }] },
+        options:{
+          ...staticOpts(),
+          indexAxis:'y',
+          scales:{
+            x:{ ticks:{ color:axisColor() }, grid:{ color:gridColor() }, suggestedMax:80, beginAtZero:true },
+            y:{ ticks:{ color:axisColor() }, grid:{ color:gridColor() } }
+          }
+        }
+      });
+    }
+
+    // ---------- Palette updater ----------
+    function updateChartPalettes(){
+      const pal = palette();
+      if(mixChart){
+        mixChart.data.datasets[0].backgroundColor = pal.brand;
+        mixChart.options.scales.x.ticks.color = axisColor();
+        mixChart.options.scales.x.grid.color  = gridColor();
+        mixChart.options.scales.y.ticks.color = axisColor();
+        mixChart.options.scales.y.grid.color  = gridColor();
+        mixChart.options.plugins.legend.labels.color = labelColor();
+        mixChart.update();
+      }
+      if(roiChart){
+        roiChart.data.datasets[0].backgroundColor = [pal.brand, '#0ea5e9', '#22c55e'];
+        roiChart.options.plugins.legend.labels.color = labelColor();
+        roiChart.update();
+      }
+      if(runwayChart){
+        runwayChart.data.datasets[0].backgroundColor = pal.brand;
+        runwayChart.options.plugins.legend.labels.color = labelColor();
+        runwayChart.options.plugins.runwayGuide.color = pal.guide;
+        runwayChart.options.scales.x.ticks.color = axisColor();
+        runwayChart.options.scales.x.grid.color  = gridColor();
+        runwayChart.options.scales.y.ticks.color = axisColor();
+        runwayChart.options.scales.y.grid.color  = gridColor();
+        runwayChart.update();
+      }
+      if(benchChart){
+        benchChart.data.datasets[0].backgroundColor = pal.brand;
+        benchChart.options.plugins.legend.labels.color = labelColor();
+        benchChart.options.scales.x.ticks.color = axisColor();
+        benchChart.options.scales.x.grid.color  = gridColor();
+        benchChart.options.scales.y.ticks.color = axisColor();
+        benchChart.options.scales.y.grid.color  = gridColor();
+        benchChart.update();
+      }
+    }
+
+    // ---------- Init ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      draw('althea');
+      // Controls
+      document.getElementById('redraw').addEventListener('click', () => {
+        const kind = document.getElementById('scenario').value;
+        draw(kind);
+      });
+      // Live theme update (if OS theme changes)
+      const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      if(mql && mql.addEventListener){
+        mql.addEventListener('change', () => { updateChartPalettes(); });
+      }
+    });
+  </script>
+</body>
+</html>
