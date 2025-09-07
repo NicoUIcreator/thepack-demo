@@ -3,13 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; object-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PACK → Althea Robotics (Francesca) — Leadership at Scale</title>
   <meta name="description" content="Persona-focused demo site for Francesca (Global Head of People) showing user flow, analytics, and static horizontal charts for eNPS, NPS, retention and ROI.">
   <link rel="stylesheet" href="styles.css">
   <!-- Chart.js (vanilla) -->
+  <meta name="description" content="Persona-focused demo site for Francesca (Global Head of People) showing user flow, analytics, and static horizontal charts for eNPS, NPS, retention and ROI.">
+  <link rel="stylesheet" href="styles_hbar.css">
+  <!-- Chart.js (vanilla) -->
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script defer src="app.js"></script>
+  <script defer src="app_hbar.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -25,6 +29,7 @@
         <a href="#analytics">Analytics</a>
         <a href="#charts">eNPS & NPS</a>
         <a href="#roi">Retention & ROI</a>
+        <a href="#roi">Retention & ROI</a>
         <a href="#packages">Packages</a>
         <a href="#next">Next Steps</a>
       </nav>
@@ -37,6 +42,7 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <h1>Althea Robotics — Leadership at Scale</h1>
+          <p class="lead">For <strong>Francesca</strong>, Global Head of People. Build leadership at scale, raise engagement, and prove impact in 90 days.</p>
           <p class="lead">For <strong>Francesca</strong>, Global Head of People. Build leadership at scale, raise engagement, and prove impact in 90 days.</p>
           <div class="cta-row">
             <a class="btn" href="#charts">See impact</a>
@@ -121,6 +127,7 @@
         <div class="grid-2">
           <ul class="bullets">
             <li>Invited vs active, matches, activity rate</li>
+            <li>Invited vs active, matches, activity rate</li>
             <li>Sessions booked/completed; satisfaction (program eNPS)</li>
             <li>Filters: country/unit/role; CSV exports</li>
             <li>Signals for retention & engagement</li>
@@ -150,6 +157,7 @@
     </section>
 
     <!-- CHARTS: eNPS & NPS -->
+    <!-- CHARTS: eNPS & NPS -->
     <section id="charts" class="section">
       <div class="container">
         <h2>Impact in 90 days — eNPS & NPS</h2>
@@ -157,14 +165,34 @@
           <div class="chart-card">
             <h3 class="meta">Program eNPS trajectory (pilot cohort)</h3>
             <canvas id="enpsChart" class="fixed-canvas"></canvas>
+            <canvas id="enpsChart" class="fixed-canvas"></canvas>
             <p class="meta">Targets: <span class="kpi">≥70% adoption</span>, <span class="kpi">+8 to +10</span> pts eNPS at day 90.</p>
           </div>
           <div class="chart-card">
             <h3 class="meta">Peer NPS benchmarks (anonymized)</h3>
             <canvas id="npsChart" class="fixed-canvas"></canvas>
+            <canvas id="npsChart" class="fixed-canvas"></canvas>
             <p class="meta">Illustrative; ranges vary by cohort size and baseline.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- RETENTION & ROI -->
+    <section id="roi" class="section alt">
+      <div class="container">
+        <h2>Retention & ROI (illustrative)</h2>
+        <div class="charts">
+          <div class="chart-card">
+            <h3 class="meta">Critical roles — retention vs. control</h3>
+            <canvas id="retentionChart" class="fixed-canvas"></canvas>
+            <p class="meta">Weekly snapshot; higher bars indicate better retention.</p>
+          </div>
+          <div class="chart-card">
+            <h3 class="meta">Turnover cost avoided vs. investment (pilot)</h3>
+            <canvas id="roiChart" class="fixed-canvas"></canvas>
+            <p class="meta">Assumes €32k pilot cost; avoided costs from reduced backfills & ramp.</p>
+          </div>
       </div>
     </section>
 
@@ -188,6 +216,7 @@
     </section>
 
     <!-- PACKAGES -->
+    <section id="packages" class="section">
     <section id="packages" class="section">
       <div class="container">
         <h2>Packages within €30–50K</h2>
@@ -241,6 +270,7 @@
 
   <footer class="site-footer">
     <div class="container">
+      <p>© 2025 Pack — Persona-focused demo for Francesca. Charts are illustrative and static. If you see console logs about “Content Script” or “TSS”, those come from a browser extension and are unrelated to this site.</p>
       <p>© 2025 Pack — Persona-focused demo for Francesca. Charts are illustrative and static. If you see console logs about “Content Script” or “TSS”, those come from a browser extension and are unrelated to this site.</p>
     </div>
   </footer>
