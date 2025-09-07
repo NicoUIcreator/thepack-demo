@@ -272,24 +272,10 @@
     };
 
     // Fictional stable data
-    // eNPS (fictional)
-    const enpsData = { labels: ['Week 0','Week 2','Week 4','Week 6','Week 8','Week 10','Week 12'],
-                      values: [10,15,19,23,28,31,34] };
-
-    // Peer NPS (fictional)
-    const npsBenchmarks = { labels: ['Retail','Tech','Manufacturing','Healthcare','Financial Services'],
-                            values: [40,48,46,50,45] };
-
-    // Retention (fictional)
-    const retention = { labels: ['W0','W2','W4','W6','W8','W10','W12'],
-                        withPack: [92,93,94,95,95,96,96],
-                        control:  [92,91,90,90,89,89,88] };
-
-    // ROI (fictional; €k)
-    const roi = { labels: ['Day 30','Day 60','Day 90'],
-                  investment: [32,0,0],
-                  savings: [60,120,180] };
-
+    const enpsData = { labels: ['Week 0','Week 2','Week 4','Week 6','Week 8','Week 10','Week 12'], values: [10,15,19,23,28,31,34] };
+    const npsBenchmarks = { labels: ['Retail','Tech','Manufacturing','Healthcare','Financial Services'], values: [40,48,46,50,45] };
+    const retention = { labels: ['W0','W2','W4','W6','W8','W10','W12'], withPack: [92,93,94,95,95,96,96], control: [92,91,90,90,89,89,88] };
+    const roi = { labels: ['Day 30','Day 60','Day 90'], investment: [32,0,0], savings: [60,120,180] };
 
     function makeENPSChart(){
       const ctx = document.getElementById('enpsChart'); if(!ctx) return;
